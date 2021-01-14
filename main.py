@@ -7,7 +7,7 @@ screen = pygame.display.set_mode(size)
 inJump = False
 gravity = 10
 delta = 10
-fps = 120
+fps = 60
 clock = pygame.time.Clock()
 
 def load_image(name, colorkey=None):
@@ -37,7 +37,6 @@ running = True
 
 while running:
     clock.tick(fps)
-    pygame.time.delay(10)
     keys = pygame.key.get_pressed()
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
@@ -49,18 +48,20 @@ while running:
         if not inJump:
             if keys[pygame.K_SPACE]:
                 inJump = True
-        else:
-            if gravity > -11:
-                if gravity == -10:
-                    hero.rect.top += ((gravity + 5) ** 2) / 3
-                if gravity < 0:
-                    hero.rect.top += (gravity ** 2) / 3
-                else:
-                    hero.rect.top -= (gravity ** 2) / 3
-                gravity -= 1
+    if inJump:
+        if gravity >= -10:
+            if gravity == -10:
+                hero.rect.top += ((gravity + 5) ** 2) / 3
+            if gravity < 0:
+                hero.rect.top += (gravity ** 2) / 3
             else:
-                inJump = False
-                gravity = 10
+                hero.rect.top -= (gravity ** 2) / 3
+            gravity -= 1
+        else:
+            inJump = False
+            gravity = 10
+
+
     if hero.rect.bottom > 400:
         hero.rect.bottom = 400
     screen.blit(bg, (0, 0))
