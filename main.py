@@ -2,11 +2,12 @@ import os
 import pygame
 
 size = width, height = 710, 400
+pygame.display.set_caption("Revolver")
 screen = pygame.display.set_mode(size)
 inJump = False
 gravity = 10
 delta = 10
-fps = 30
+fps = 120
 clock = pygame.time.Clock()
 
 def load_image(name, colorkey=None):
