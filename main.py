@@ -1,9 +1,13 @@
 import os
 import pygame
 
-size = width, height = 500, 400
+size = width, height = 710, 400
 screen = pygame.display.set_mode(size)
 inJump = False
+gravity = 10
+delta = 10
+fps = 30
+clock = pygame.time.Clock()
 
 def load_image(name, colorkey=None):
     fullname = os.path.join('data', name)
@@ -22,30 +26,41 @@ def load_image(name, colorkey=None):
 
 
 all_sprites = pygame.sprite.Group()
-creature_image = load_image('chu.png')
-creature = pygame.sprite.Sprite(all_sprites)
-creature.image = creature_image
-creature.rect = creature.image.get_rect()
-creature.rect.topleft = 0, 0
-delta = 3
-
-
+hero_image = load_image('chu.png')
+hero = pygame.sprite.Sprite(all_sprites)
+hero.image = hero_image
+hero.rect = hero.image.get_rect()
+bg = pygame.image.load('data/bg.jpg')
+hero.rect.bottomright = 200, 400
 running = True
+
 while running:
+    clock.tick(fps)
     keys = pygame.key.get_pressed()
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
             running = False
-        if keys[pygame.K_s] and creature.rect.bottom < 397:
-            creature.rect.top += delta
-        if keys[pygame.K_w] and creature.rect.top > 0:
-            creature.rect.top -= delta
-        if keys[pygame.K_a] and creature.rect.left > 0:
-            creature.rect.left -= delta
-        if keys[pygame.K_d] and creature.rect.right < 497:
-            creature.rect.left += delta
-    screen.fill((255, 255, 255))
+        if keys[pygame.K_a] and hero.rect.left > 0:
+            hero.rect.left -= delta
+        if keys[pygame.K_d] and hero.rect.right < 707:
+            hero.rect.left += delta
+        if not inJump:
+            if keys[pygame.K_SPACE]:
+                inJump = True
+        else:
+            if gravity >= -10:
+                if gravity < 0:
+                    hero.rect.top += (gravity ** 2) / 3
+                else:
+                    hero.rect.top -= (gravity ** 2) / 3
+                gravity -= 1
+            else:
+                inJump = False
+                gravity = 10
+
+    screen.blit(bg, (0, 0))
     all_sprites.draw(screen)
     pygame.display.flip()
+
 
 pygame.quit()
