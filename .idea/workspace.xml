@@ -19,10 +19,7 @@
     <select />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="42eccad5-eaa3-4ba4-b67f-a80bea7d642d" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/.idea/vcs.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/projectpygame.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/projectpygame.iml" afterDir="false" />
+    <list default="true" id="42eccad5-eaa3-4ba4-b67f-a80bea7d642d" name="Default Changelist" comment="set name tag">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/main.py" afterDir="false" />
     </list>
@@ -84,6 +81,14 @@
       <option name="presentableId" value="Default" />
       <updated>1610570748044</updated>
     </task>
+    <task id="LOCAL-00001" summary="set name tag">
+      <created>1610657999218</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1610657999218</updated>
+    </task>
+    <option name="localTasksCounter" value="2" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -98,23 +103,35 @@
     </option>
     <option name="oldMeFiltersMigrated" value="true" />
   </component>
+  <component name="VcsManagerConfiguration">
+    <MESSAGE value="set name tag" />
+    <option name="LAST_COMMIT_MESSAGE" value="set name tag" />
+  </component>
   <component name="WindowStateProjectService">
-    <state width="1899" height="282" key="GridCell.Tab.0.bottom" timestamp="1610657952632">
+    <state width="1899" height="136" key="GridCell.Tab.0.bottom" timestamp="1610667615431">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state width="1899" height="282" key="GridCell.Tab.0.bottom/1920.0.1920.1040/0.0.1920.1040@0.0.1920.1040" timestamp="1610657952632" />
-    <state width="1899" height="282" key="GridCell.Tab.0.center" timestamp="1610657952632">
+    <state width="1899" height="136" key="GridCell.Tab.0.bottom/1920.0.1920.1040/0.0.1920.1040@0.0.1920.1040" timestamp="1610667615431" />
+    <state width="1899" height="136" key="GridCell.Tab.0.center" timestamp="1610667615431">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state width="1899" height="282" key="GridCell.Tab.0.center/1920.0.1920.1040/0.0.1920.1040@0.0.1920.1040" timestamp="1610657952632" />
-    <state width="1899" height="282" key="GridCell.Tab.0.left" timestamp="1610657952631">
+    <state width="1899" height="136" key="GridCell.Tab.0.center/1920.0.1920.1040/0.0.1920.1040@0.0.1920.1040" timestamp="1610667615431" />
+    <state width="1899" height="136" key="GridCell.Tab.0.left" timestamp="1610667615430">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state width="1899" height="282" key="GridCell.Tab.0.left/1920.0.1920.1040/0.0.1920.1040@0.0.1920.1040" timestamp="1610657952631" />
-    <state width="1899" height="282" key="GridCell.Tab.0.right" timestamp="1610657952632">
+    <state width="1899" height="136" key="GridCell.Tab.0.left/1920.0.1920.1040/0.0.1920.1040@0.0.1920.1040" timestamp="1610667615430" />
+    <state width="1899" height="136" key="GridCell.Tab.0.right" timestamp="1610667615431">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state width="1899" height="282" key="GridCell.Tab.0.right/1920.0.1920.1040/0.0.1920.1040@0.0.1920.1040" timestamp="1610657952632" />
+    <state width="1899" height="136" key="GridCell.Tab.0.right/1920.0.1920.1040/0.0.1920.1040@0.0.1920.1040" timestamp="1610667615431" />
+    <state x="178" y="92" key="MergeDialog" timestamp="1610664683745">
+      <screen x="0" y="0" width="1920" height="1040" />
+    </state>
+    <state x="178" y="92" key="MergeDialog/1920.0.1920.1040/0.0.1920.1040@0.0.1920.1040" timestamp="1610664683745" />
+    <state x="552" y="252" key="Vcs.Push.Dialog.v2" timestamp="1610658011161">
+      <screen x="0" y="0" width="1920" height="1040" />
+    </state>
+    <state x="552" y="252" key="Vcs.Push.Dialog.v2/1920.0.1920.1040/0.0.1920.1040@0.0.1920.1040" timestamp="1610658011161" />
     <state x="777" y="433" key="com.intellij.openapi.vcs.update.UpdateOrStatusOptionsDialogupdate-v2" timestamp="1610657655730">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
