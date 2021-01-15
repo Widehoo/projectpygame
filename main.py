@@ -1,7 +1,7 @@
 import os
 import pygame
 
-size = width, height = 710, 400
+size = width, height = 784, 544
 pygame.display.set_caption("Revolver")
 screen = pygame.display.set_mode(size)
 inJump = False
@@ -27,13 +27,24 @@ all_sprites = pygame.sprite.Group()
 hero = pygame.sprite.Sprite(all_sprites)
 hero.image = hero_stand
 hero.rect = hero.image.get_rect()
-bg = pygame.image.load('data/bg.jpg')
-hero.rect.bottomright = 200, 400
+hero.rect.bottomright = 200, 535
+i = 1
+slower = 0.5
 
 
 def draw():
     global animation
+    global i
+    global slower
+    if i + 1 >= 340:
+        i = 1
+    if 230 < i < 330:
+        slower = 1
+    else:
+        slower = 0.5
+    bg = pygame.image.load(f'captures/{int(i // 1)}.png')
     screen.blit(bg, (0, 0))
+    i += slower
     if animation + 1 >= 16:
         animation = 0
     if Moving_left and not Jump_up and not Jump_down:
@@ -71,7 +82,7 @@ while running:
             hero.rect.left -= delta
             Moving_left = True
             Moving_right = False
-        elif keys[pygame.K_d] and hero.rect.right < 707:
+        elif keys[pygame.K_d] and hero.rect.right < 780:
             hero.rect.left += delta
             Moving_left = False
             Moving_right = True
@@ -100,8 +111,8 @@ while running:
             Jump_up = False
             Jump_down = False
 
-    if hero.rect.bottom > 400:
-        hero.rect.bottom = 400
+    if hero.rect.bottom > 540:
+        hero.rect.bottom = 540
     draw()
 
 pygame.quit()
