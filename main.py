@@ -126,13 +126,13 @@ while running:
     if inJump:
         if gravity >= -11:
             if gravity == -11:
-                hero.rect.top += ((gravity + 5) ** 2) / 3
+                hero.rect.top += ((gravity + 5) ** 2) / 2
             if gravity < 0:
-                hero.rect.top += (gravity ** 2) / 3
+                hero.rect.top += (gravity ** 2) / 2
                 Jump_up = False
                 Jump_down = True
             else:
-                hero.rect.top -= (gravity ** 2) / 3
+                hero.rect.top -= (gravity ** 2) / 2
             gravity -= 1
         else:
             inJump = False
