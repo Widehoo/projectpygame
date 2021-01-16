@@ -23,11 +23,19 @@ hero_jump_up = pygame.image.load("sprites/J_UL.png")
 hero_jump_down = pygame.image.load("sprites/J_DL.png")
 hero_jump_up_right = pygame.image.load("sprites/J_UR.png")
 hero_jump_down_right = pygame.image.load("sprites/J_DR.png")
+
 all_sprites = pygame.sprite.Group()
 hero = pygame.sprite.Sprite(all_sprites)
 hero.image = hero_stand
 hero.rect = hero.image.get_rect()
 hero.rect.bottomright = 200, 535
+
+ground = pygame.sprite.Sprite(all_sprites)
+ground.image = pygame.image.load('data/ground.png')
+ground.rect = ground.image.get_rect()
+ground.rect.bottomleft = -50, 485
+grdelta = 30
+
 i = 1
 slower = 0.5
 
@@ -45,6 +53,13 @@ def draw():
     bg = pygame.image.load(f'captures/{int(i // 1)}.png')
     screen.blit(bg, (0, 0))
     i += slower
+
+    if ground.rect.right < 1000:
+        ground.rect.left = -50
+    screen.blit(ground.image, (ground.rect.left, ground.rect.bottom))
+    ground.rect.left -= grdelta
+
+
     if animation + 1 >= 16:
         animation = 0
     if Moving_left and not Jump_up and not Jump_down:
@@ -111,8 +126,8 @@ while running:
             Jump_up = False
             Jump_down = False
 
-    if hero.rect.bottom > 540:
-        hero.rect.bottom = 540
+    if hero.rect.bottom > 535:
+        hero.rect.bottom = 535
     draw()
 
 pygame.quit()
