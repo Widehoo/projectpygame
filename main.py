@@ -5,7 +5,7 @@ size = width, height = 784, 544
 pygame.display.set_caption("Revolver")
 screen = pygame.display.set_mode(size)
 inJump = False
-gravity = 10
+gravity = 11
 delta = 10
 fps = 16
 Moving_right = False
@@ -34,13 +34,21 @@ ground = pygame.sprite.Sprite(all_sprites)
 ground.image = pygame.image.load('data/ground.png')
 ground.rect = ground.image.get_rect()
 ground.rect.bottomleft = -50, 485
-grdelta = 30
+grdelta = 20
+
+wallstart = 2000
+wall1 = pygame.sprite.Sprite(all_sprites)
+wall1.image = pygame.image.load('data/wall1.png')
+wall1.rect = ground.image.get_rect()
+wall1.rect.bottomleft = wallstart, 375
+wallspeed = 20
 
 i = 1
 slower = 0.5
 
 
 def draw():
+    global wallspeed, wallstart
     global animation
     global i
     global slower
@@ -58,6 +66,12 @@ def draw():
         ground.rect.left = -50
     screen.blit(ground.image, (ground.rect.left, ground.rect.bottom))
     ground.rect.left -= grdelta
+
+    if wall1.rect.left < -300:
+        wall1.rect.left = wallstart
+    screen.blit(wall1.image, (wall1.rect.left, wall1.rect.bottom))
+    wall1.rect.left -= wallspeed
+    wallstart = 750
 
 
     if animation + 1 >= 16:
@@ -110,8 +124,8 @@ while running:
                 inJump = True
                 Jump_up = True
     if inJump:
-        if gravity >= -10:
-            if gravity == -10:
+        if gravity >= -11:
+            if gravity == -11:
                 hero.rect.top += ((gravity + 5) ** 2) / 3
             if gravity < 0:
                 hero.rect.top += (gravity ** 2) / 3
@@ -122,12 +136,16 @@ while running:
             gravity -= 1
         else:
             inJump = False
-            gravity = 10
+            gravity = 11
             Jump_up = False
             Jump_down = False
 
     if hero.rect.bottom > 535:
         hero.rect.bottom = 535
+    if hero.rect.right > wall1.rect.left + 75 and hero.rect.right < wall1.rect.left + 175\
+            and hero.rect.bottom > 415:
+        pygame.quit()
+
     draw()
 
 pygame.quit()
