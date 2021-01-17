@@ -1,6 +1,7 @@
 import os
 import pygame
 
+pygame.init()
 size = width, height = 784, 544
 pygame.display.set_caption("Revolver")
 screen = pygame.display.set_mode(size)
@@ -13,6 +14,7 @@ Moving_left = False
 Jump_up = False
 Jump_down = False
 animation = 0
+score = 0
 clock = pygame.time.Clock()
 walking_on_right = [pygame.image.load("sprites/R_R1.png"), pygame.image.load("sprites/R_R2.png"),
                     pygame.image.load("sprites/R_R3.png"), pygame.image.load("sprites/R_R4.png")]
@@ -43,8 +45,18 @@ wall1.rect = ground.image.get_rect()
 wall1.rect.bottomleft = wallstart, 375
 wallspeed = 20
 
+pygame.mixer.music.load("music/bg_music.mp3")
+pygame.mixer.music.set_volume(0.01)
+pygame.mixer.music.play(-1)
+
 i = 1
 slower = 0.5
+
+
+def print_text(message, x, y, color=(198, 207, 207), letter_type="sprites/shrift.ttf", letter_size=30):
+    letter_type = pygame.font.Font(letter_type, letter_size)
+    text = letter_type.render(message, True, color)
+    screen.blit(text, (x, y))
 
 
 def draw():
@@ -73,7 +85,6 @@ def draw():
     wall1.rect.left -= wallspeed
     wallstart = 750
 
-
     if animation + 1 >= 16:
         animation = 0
     if Moving_left and not Jump_up and not Jump_down:
@@ -91,11 +102,13 @@ def draw():
     elif Moving_right and not Jump_up and Jump_down:
         screen.blit(hero_jump_down_right, (hero.rect.left, hero.rect.top))
     elif Jump_up:
-        screen.blit(hero_jump_up, (hero.rect.left, hero.rect.top))
+        screen.blit(hero_jump_up_right, (hero.rect.left, hero.rect.top))
     elif Jump_down:
-        screen.blit(hero_jump_down, (hero.rect.left, hero.rect.top))
+        screen.blit(hero_jump_down_right, (hero.rect.left, hero.rect.top))
     else:
-        screen.blit(hero_stand, (hero.rect.left, hero.rect.top))
+        screen.blit(walking_on_right[animation // 4], (hero.rect.left, hero.rect.top))
+        animation += 1
+    print_text("Score:" + str(score), 560, 20)
     pygame.display.flip()
 
 
@@ -142,10 +155,10 @@ while running:
 
     if hero.rect.bottom > 535:
         hero.rect.bottom = 535
-    if hero.rect.right > wall1.rect.left + 75 and hero.rect.right < wall1.rect.left + 175\
+    if hero.rect.right > wall1.rect.left + 75 and hero.rect.right < wall1.rect.left + 175 \
             and hero.rect.bottom > 415:
         pygame.quit()
 
     draw()
-
+    score += 1
 pygame.quit()
