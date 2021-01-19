@@ -6,6 +6,7 @@ size = width, height = 784, 544
 pygame.display.set_caption("Revolver")
 screen = pygame.display.set_mode(size)
 inJump = False
+running = False
 gravity = 11
 delta = 10
 fps = 16
@@ -26,6 +27,8 @@ hero_jump_down = pygame.image.load("sprites/J_DL.png")
 hero_jump_up_right = pygame.image.load("sprites/J_UR.png")
 hero_jump_down_right = pygame.image.load("sprites/J_DR.png")
 
+fon1 = pygame.image.load('data/fon.jpg')
+
 all_sprites = pygame.sprite.Group()
 hero = pygame.sprite.Sprite(all_sprites)
 hero.image = hero_stand
@@ -45,13 +48,15 @@ wall1.rect = ground.image.get_rect()
 wall1.rect.bottomleft = wallstart, 375
 wallspeed = 20
 
-pygame.mixer.music.load("music/bg_music.mp3")
-pygame.mixer.music.set_volume(0.01)
-pygame.mixer.music.play(-1)
-
 i = 1
 slower = 0.5
 
+def start_game():
+    global running
+    running = True
+    pygame.mixer.music.load("music/bg_music.mp3")
+    pygame.mixer.music.set_volume(0.01)
+    pygame.mixer.music.play(-1)
 
 def print_text(message, x, y, color=(198, 207, 207), letter_type="sprites/shrift.ttf", letter_size=30):
     letter_type = pygame.font.Font(letter_type, letter_size)
@@ -59,8 +64,29 @@ def print_text(message, x, y, color=(198, 207, 207), letter_type="sprites/shrift
     screen.blit(text, (x, y))
 
 
+def start_screen():
+    fon = pygame.transform.scale(fon1, (579, 505))
+    screen.blit(fon, (0, 0))
+    print_text('Управление персонажем:', 100, 50)
+    print_text('A - влево', 100, 100)
+    print_text('D - вправо', 100, 150)
+    print_text('SPACE - прыжок', 100, 200)
+    print_text('нажмите любую клавишу, чтобы начать', 60, 400, letter_size=10)
+
+
+    while True:
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT:
+                terminate()
+            elif event.type == pygame.KEYDOWN or \
+                    event.type == pygame.MOUSEBUTTONDOWN:
+                start_game()
+                return  # начинаем игру
+        pygame.display.flip()
+        clock.tick(fps)
+
 def draw():
-    global wallspeed, wallstart
+    global wallspeed, wallstart, grdelta
     global animation
     global i
     global slower
@@ -81,6 +107,18 @@ def draw():
 
     if wall1.rect.left < -300:
         wall1.rect.left = wallstart
+    if score > 200:
+        wallspeed = 30
+        grdelta = 30
+    if score > 400:
+        wallspeed = 40
+        grdelta = 40
+    if score > 600:
+        wallspeed = 45
+        grdelta = 45
+    if score > 800:
+        wallspeed = 50
+        grdelta = 50
     screen.blit(wall1.image, (wall1.rect.left, wall1.rect.bottom))
     wall1.rect.left -= wallspeed
     wallstart = 750
@@ -111,6 +149,7 @@ def draw():
     print_text("Score:" + str(score), 560, 20)
     pygame.display.flip()
 
+start_screen()
 
 def lose_game():
     losing = True
