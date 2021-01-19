@@ -5,17 +5,13 @@ pygame.init()
 size = width, height = 784, 544
 pygame.display.set_caption("Revolver")
 screen = pygame.display.set_mode(size)
+fps = 16
 inJump = False
 running = False
-gravity = 9
-delta = 10
-fps = 16
 Moving_right = False
 Moving_left = False
 Jump_up = False
 Jump_down = False
-animation = 0
-score = 0
 clock = pygame.time.Clock()
 walking_on_right = [pygame.image.load("sprites/R_R1.png"), pygame.image.load("sprites/R_R2.png"),
                     pygame.image.load("sprites/R_R3.png"), pygame.image.load("sprites/R_R4.png")]
@@ -27,47 +23,67 @@ hero_jump_down = pygame.image.load("sprites/J_DL.png")
 hero_jump_up_right = pygame.image.load("sprites/J_UR.png")
 hero_jump_down_right = pygame.image.load("sprites/J_DR.png")
 
-fon1 = pygame.image.load('data/fon.jpg')
+fon1 = pygame.image.load('sprites/start_screen_bg.jpg')
+
+game_over_bg = pygame.image.load("sprites/game_over_screen.jpg")
 
 all_sprites = pygame.sprite.Group()
 hero = pygame.sprite.Sprite(all_sprites)
 hero.image = hero_stand
 hero.rect = hero.image.get_rect()
-hero.rect.bottomright = 200, 535
 
 ground = pygame.sprite.Sprite(all_sprites)
 ground.image = pygame.image.load('data/ground.png')
 ground.rect = ground.image.get_rect()
-ground.rect.bottomleft = -50, 485
-grdelta = 20
 
-wallstart = 2000
 wall1 = pygame.sprite.Sprite(all_sprites)
 wall1.image = pygame.image.load('data/wall1.png')
 wall1.rect = ground.image.get_rect()
-wall1.rect.bottomleft = wallstart, 375
-wallspeed = 20
 
-wallstart2 = 1800
 wall2 = pygame.sprite.Sprite(all_sprites)
 wall2.image = pygame.image.load('data/wall2.png')
 wall2.rect = ground.image.get_rect()
-wall2.rect.bottomleft = wallstart2, 425
 
 wall3 = pygame.sprite.Sprite(all_sprites)
 wall3.image = pygame.image.load('data/wall3.png')
 wall3.rect = ground.image.get_rect()
-wall3.rect.bottomleft = 12900, 275
 
-i = 1
-slower = 0.5
 
 def start_game():
     global running
+    global wallspeed
+    global i
+    global slower
+    global grdelta
+    global wallstart
+    global wallstart2
+    global animation
+    global score
+    global gravity
+    global delta
+    global fps
     running = True
+    wallspeed = 20
+    i = 1
+    slower = 0.5
+    grdelta = 20
+    wallstart = 2000
+    wallstart2 = 1800
+    animation = 0
+    score = 0
+    gravity = 9
+    delta = 10
+    fps = 16
+    hero.rect.bottomright = 200, 535
+    ground.rect.bottomleft = -50, 485
+    wall1.rect.bottomleft = wallstart, 375
+    wall2.rect.bottomleft = wallstart2, 425
+    wall3.rect.bottomleft = 12900, 275
+    pygame.mixer.music.stop()
     pygame.mixer.music.load("music/bg_music.mp3")
     pygame.mixer.music.set_volume(0.01)
     pygame.mixer.music.play(-1)
+
 
 def print_text(message, x, y, color=(198, 207, 207), letter_type="sprites/shrift.ttf", letter_size=30):
     letter_type = pygame.font.Font(letter_type, letter_size)
@@ -76,25 +92,27 @@ def print_text(message, x, y, color=(198, 207, 207), letter_type="sprites/shrift
 
 
 def start_screen():
-    fon = pygame.transform.scale(fon1, (579, 505))
+    fon = pygame.transform.scale(fon1, (1000, 600))
     screen.blit(fon, (0, 0))
-    print_text('Управление персонажем:', 100, 50)
-    print_text('A - влево', 100, 100)
-    print_text('D - вправо', 100, 150)
-    print_text('SPACE - прыжок', 100, 200)
-    print_text('нажмите любую клавишу, чтобы начать', 60, 400, letter_size=10)
-
+    print_text('Controlling the character:', 100, 50)
+    print_text('A - left', 100, 100)
+    print_text('D - right', 100, 150)
+    print_text('SPACE - jump', 100, 200)
+    print_text('Press mouse button to start', 370, 510, letter_size=20)
+    pygame.mixer.music.load("music/strat_screen_music_bg.mp3")
+    pygame.mixer.music.set_volume(0.01)
+    pygame.mixer.music.play(-1)
 
     while True:
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 pygame.quit()
-            elif event.type == pygame.KEYDOWN or \
-                    event.type == pygame.MOUSEBUTTONDOWN:
+            elif event.type == pygame.MOUSEBUTTONDOWN:
                 start_game()
                 return  # начинаем игру
         pygame.display.flip()
         clock.tick(fps)
+
 
 def draw():
     global wallspeed, wallstart, grdelta, wallstart2
@@ -167,25 +185,30 @@ def draw():
     print_text("Score:" + str(score), 560, 20)
     pygame.display.flip()
 
-start_screen()
 
 def lose_game():
+    global running
+    running = False
     losing = True
     while losing:
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 pygame.quit()
-
-        print_text("You lost...", 300, 180)
-        print_text("Press 'R' to restart the game", 100, 220)
+        pygame.mixer.music.stop()
+        g_o_sc = pygame.transform.scale(game_over_bg, (784, 544))
+        screen.blit(g_o_sc, (0, 0))
+        print_text("Press 'R' to restart the game", 120, 470)
 
         keys = pygame.key.get_pressed()
-        if keys[pygame.K_r]:
-            losing = False
 
+        if keys[pygame.K_r]:
+            start_game()
+            losing = False
         pygame.display.flip()
         clock.tick(20)
 
+
+start_screen()
 
 running = True
 
@@ -233,10 +256,10 @@ while running:
     if hero.rect.right > wall1.rect.left + 75 and hero.rect.right < wall1.rect.left + 170 \
             and hero.rect.bottom > 445:
         lose_game()
-    if hero.rect.right > wall2.rect.left + 75 and hero.rect.right < wall2.rect.left + 160\
+    if hero.rect.right > wall2.rect.left + 75 and hero.rect.right < wall2.rect.left + 160 \
             and hero.rect.bottom > 470:
         lose_game()
-    if hero.rect.right > wall3.rect.left + 100 and hero.rect.right < wall3.rect.left + 210\
+    if hero.rect.right > wall3.rect.left + 100 and hero.rect.right < wall3.rect.left + 210 \
             and hero.rect.bottom > 345:
         lose_game()
 
