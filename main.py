@@ -112,6 +112,24 @@ def draw():
     pygame.display.flip()
 
 
+def lose_game():
+    losing = True
+    while losing:
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT:
+                pygame.quit()
+
+        print_text("You lost...", 300, 180)
+        print_text("Press 'R' to restart the game", 100, 220)
+
+        keys = pygame.key.get_pressed()
+        if keys[pygame.K_r]:
+            losing = False
+
+        pygame.display.flip()
+        clock.tick(20)
+
+
 running = True
 
 while running:
@@ -157,7 +175,7 @@ while running:
         hero.rect.bottom = 535
     if hero.rect.right > wall1.rect.left + 75 and hero.rect.right < wall1.rect.left + 175 \
             and hero.rect.bottom > 415:
-        pygame.quit()
+        lose_game()
 
     draw()
     score += 1
