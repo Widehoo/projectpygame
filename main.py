@@ -7,7 +7,7 @@ pygame.display.set_caption("Revolver")
 screen = pygame.display.set_mode(size)
 inJump = False
 running = False
-gravity = 11
+gravity = 9
 delta = 10
 fps = 16
 Moving_right = False
@@ -48,6 +48,17 @@ wall1.rect = ground.image.get_rect()
 wall1.rect.bottomleft = wallstart, 375
 wallspeed = 20
 
+wallstart2 = 1800
+wall2 = pygame.sprite.Sprite(all_sprites)
+wall2.image = pygame.image.load('data/wall2.png')
+wall2.rect = ground.image.get_rect()
+wall2.rect.bottomleft = wallstart2, 425
+
+wall3 = pygame.sprite.Sprite(all_sprites)
+wall3.image = pygame.image.load('data/wall3.png')
+wall3.rect = ground.image.get_rect()
+wall3.rect.bottomleft = 12900, 275
+
 i = 1
 slower = 0.5
 
@@ -77,7 +88,7 @@ def start_screen():
     while True:
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
-                terminate()
+                pygame.quit()
             elif event.type == pygame.KEYDOWN or \
                     event.type == pygame.MOUSEBUTTONDOWN:
                 start_game()
@@ -86,7 +97,7 @@ def start_screen():
         clock.tick(fps)
 
 def draw():
-    global wallspeed, wallstart, grdelta
+    global wallspeed, wallstart, grdelta, wallstart2
     global animation
     global i
     global slower
@@ -107,21 +118,28 @@ def draw():
 
     if wall1.rect.left < -300:
         wall1.rect.left = wallstart
-    if score > 200:
+    if wall2.rect.left < -300:
+        wall2.rect.left = wallstart2
+    if score > 400:
         wallspeed = 30
         grdelta = 30
-    if score > 400:
+    if score > 700:
         wallspeed = 40
         grdelta = 40
-    if score > 600:
+    if score > 1000:
         wallspeed = 45
         grdelta = 45
-    if score > 800:
+    if score > 1100:
         wallspeed = 50
         grdelta = 50
     screen.blit(wall1.image, (wall1.rect.left, wall1.rect.bottom))
+    screen.blit(wall2.image, (wall2.rect.left, wall2.rect.bottom))
+    screen.blit(wall3.image, (wall3.rect.left, wall3.rect.bottom))
     wall1.rect.left -= wallspeed
-    wallstart = 750
+    wallstart = 1300
+    wall2.rect.left -= wallspeed
+    wallstart2 = 1200
+    wall3.rect.left -= wallspeed
 
     if animation + 1 >= 16:
         animation = 0
@@ -194,26 +212,32 @@ while running:
                 inJump = True
                 Jump_up = True
     if inJump:
-        if gravity >= -11:
-            if gravity == -11:
-                hero.rect.top += ((gravity + 5) ** 2) / 2
+        if gravity >= -9:
+            if gravity == -9:
+                hero.rect.top += ((gravity + 5) ** 2)
             if gravity < 0:
-                hero.rect.top += (gravity ** 2) / 2
+                hero.rect.top += (gravity ** 2)
                 Jump_up = False
                 Jump_down = True
             else:
-                hero.rect.top -= (gravity ** 2) / 2
+                hero.rect.top -= (gravity ** 2)
             gravity -= 1
         else:
             inJump = False
-            gravity = 11
+            gravity = 9
             Jump_up = False
             Jump_down = False
 
     if hero.rect.bottom > 535:
         hero.rect.bottom = 535
-    if hero.rect.right > wall1.rect.left + 75 and hero.rect.right < wall1.rect.left + 175 \
-            and hero.rect.bottom > 415:
+    if hero.rect.right > wall1.rect.left + 75 and hero.rect.right < wall1.rect.left + 170 \
+            and hero.rect.bottom > 445:
+        lose_game()
+    if hero.rect.right > wall2.rect.left + 75 and hero.rect.right < wall2.rect.left + 160\
+            and hero.rect.bottom > 470:
+        lose_game()
+    if hero.rect.right > wall3.rect.left + 100 and hero.rect.right < wall3.rect.left + 210\
+            and hero.rect.bottom > 345:
         lose_game()
 
     draw()
